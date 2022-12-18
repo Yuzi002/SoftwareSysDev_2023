@@ -5,6 +5,7 @@ import com.Yuzi.web.dao.impl.UserDaoImpl;
 import com.Yuzi.web.pojo.User;
 import com.Yuzi.web.pojo.R;
 import com.google.gson.Gson;
+import org.apache.commons.lang3.ArrayUtils;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,9 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/userlist.action", "/checkName.action", "/addUser.action", "/updUser.action","/delUser.action"})
+@WebServlet(urlPatterns = {"/userlist.action", "/checkName.action", "/addUser.action", "/updUser.action", "/delUser.action", "/delUsers.action"})
 public class UserServlet extends HttpServlet {
   //先创建userDao
   private UserDao userDao = new UserDaoImpl();
@@ -52,11 +54,11 @@ public class UserServlet extends HttpServlet {
     String loginname = request.getParameter("username");
     String status = request.getParameter("status");
     //当前页数
-    int page=Integer.parseInt(request.getParameter("page"));
+    int page = Integer.parseInt(request.getParameter("page"));
     //每页多少条
-    int limit=Integer.parseInt(request.getParameter("limit"));
+    int limit = Integer.parseInt(request.getParameter("limit"));
     //查询方法
-    List<User> users = userDao.userList(loginname, status,page,limit);
+    List<User> users = userDao.userList(loginname, status, page, limit);
     R r = new R();
     r.put("msg", "查询成功");
     r.put("data", users);
@@ -94,12 +96,12 @@ public class UserServlet extends HttpServlet {
           out.print(0);
         }
       }
-      case "delUser.action"->{
-        int id=Integer.parseInt(request.getParameter("id"));
+      case "delUser.action" -> {
+        int id = Integer.parseInt(request.getParameter("id"));
         //判断是不是删的自己
-        HttpSession session=request.getSession();
-        User user= (User) session.getAttribute("user");
-        if(user.getId()==id){
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if (user.getId() == id) {
           out.print(id);//是自己
           break;
         }
@@ -107,6 +109,22 @@ public class UserServlet extends HttpServlet {
           out.print(0);//修改成功
         } else {
           out.print(-1);//修改失败
+        }
+      }
+      case "delUsers.action" -> {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        var ids = Arrays.stream(request.getParameter("ids").split(",")).mapToInt(Integer::parseInt).toArray();
+        if (ArrayUtils.contains(ids, user.getId())) {//有本人，错误
+          out.print(user.getId());
+        } else {
+          int flag = 0;
+          for (var id : ids) {
+            if (userDao.delUser(id) <= 0) {
+              flag = -1;//删除失败
+            }
+          }
+          out.print(flag);
         }
       }
     }

@@ -162,12 +162,12 @@
   		    	},
   		    	type:'post',
   		    	success:function(data){
-  		    		if (data == 1) {
+  		    		if (data == 0) {
   		    			layer.msg('删除成功！',{icon:6,offset:"auto",time:2000});//提示框
   		    			setTimeout(function(){
   	  						location.reload();//重新加载页面表格
   	  					}, 2100);
-  					}else if (data == 0){
+  					}else if (data == -1){
   						layer.msg('删除失败！',{icon:5,offset:"auto",time:2000});//提示框
   					}else{
   						layer.msg('用户id:'+data+'正在线上，不能删除！',{icon:5,offset:"auto",time:2000});//提示框
