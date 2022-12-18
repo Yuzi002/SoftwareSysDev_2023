@@ -10,6 +10,24 @@ public class User {
   private Date createdate;
   private String username;
 
+  public User(String loginname, String password, int status, String username) {
+    this.loginname = loginname;
+    this.password = password;
+    this.status = status;
+    this.username = username;
+  }
+
+  public User() {
+
+  }
+
+  public User(int id, String loginname, int status, String username) {
+    this.id = id;
+    this.loginname = loginname;
+    this.status = status;
+    this.username = username;
+  }
+
   public int getId() {
     return id;
   }

@@ -14,7 +14,7 @@
   <script src="../../static/js/jquery-1.12.4.min.js" charset="utf-8"></script>
   <script type="text/javascript" src="../../static/lib/layui/layui.js" charset="utf-8"></script>
   <script type="text/javascript" src="../../static/js/xadmin.js"></script>
- 
+
 </head>
 
 <body class="layui-anim layui-anim-up">
@@ -45,10 +45,10 @@
   </div>
   <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit" >
-      <i class="layui-icon">&#xe642;</i>编辑 
+      <i class="layui-icon">&#xe642;</i>编辑
     </a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">
-      <i class="layui-icon">&#xe640;</i>删除 
+      <i class="layui-icon">&#xe640;</i>删除
     </a>
   </script>
 
@@ -66,24 +66,24 @@
         , cols: [[
         	{type:'checkbox'}
           ,{ field: 'id', title: 'ID', sort: true }
-          , { field: 'loginname', title: '登录名'} 
+          , { field: 'loginname', title: '登录名'}
           , { field: 'username', title: '昵称'}
           , { field: 'status', title: '状态',sort: true ,
               templet: function(d){
                 if(d.status == 1){
                   return `<span class="layui-badge">未审批</span>`}
                 else{return `<span class="layui-badge layui-bg-blue">正常</span>`}
-              }  
+              }
           }
           , { field: 'createdate', title: '创建时间', sort: true  }
           , { field: '', title: '操作', toolbar: '#barDemo' }
         ]]
-        /* , page: true
+         , page: true
         ,done: function (res, curr, count) {
             $('.layui-table').css("width","100%");
             $("th[data-field='bar']").css("border-right",'none');
           }
-      ,limits:[5,10,15] */
+      ,limits:[5,10,15]
       });
 
       //监听工具条
@@ -96,7 +96,7 @@
                   type: 'post',
                   data:{id:data.id},
                   success: function (data) {
-                    if (data == 1) {
+                    if (data == 0) {
                       layer.close(index);
                       layer.msg('删除成功', {
                         icon: 6,
@@ -104,7 +104,7 @@
                       }, function(){
                         location.replace(location.href);
                       });
-                    }else if (data == 0){
+                    }else if (data == -1){
                       layer.alert("删除失败！")
                     }else{
                     	layer.msg('用户id:'+data+'正在线上，不能删除！',{icon:5,offset:"auto",time:2000});//提示框
@@ -122,7 +122,7 @@
 
         }
       });
-      
+
       active = {
   	        reload: function(){
   	          var status = $('#status');
@@ -138,7 +138,7 @@
   	            }
   	          });
   	        },
-      
+
       getCheckData:function(){ //获取选中数据
 	        var checkStatus = table.checkStatus('user')
 	        ,data = checkStatus.data
@@ -147,7 +147,7 @@
 	        	return;
 	        }
 	        var ids=''
-           
+
            if(data.length>0){
         	   for (var i = 0; i < data.length; i++) {
    				ids += data[i].id;
@@ -175,8 +175,8 @@
   		    	}
   	        })
           })
-	        
-	    }  
+
+	    }
   	      };
       $('.demoTable .layui-btn').on('click', function(){
           var type = $(this).data('type');

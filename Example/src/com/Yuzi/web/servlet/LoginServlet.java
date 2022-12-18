@@ -92,6 +92,8 @@ public class LoginServlet extends HttpServlet {
     if (code.equals(vcode)) {
       User user = userDao.login(username, password);
       if (user != null) {
+        //将当前用户信息保存在session中
+        session.setAttribute("user",user);
         R r = new R();
         //将user对象保存在user中
         r.put("user", user);

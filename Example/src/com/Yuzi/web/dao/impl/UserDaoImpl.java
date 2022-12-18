@@ -24,16 +24,48 @@ public class UserDaoImpl extends JDBCUtils<User> implements UserDao {
 
   //查询user_inf表中的信息
   @Override
-  public List<User> userList(String loginname, String status) {
-    String sql="select * from user_inf where 1=1";//万能条件
+  public List<User> userList(String loginname, String status, int page, int limit) {
+    String sql = "select * from user_inf where 1=1";//万能条件
     //对条件做判断，不为空
-    if(loginname!=null&&!"".equals(loginname)){
-      sql+=" and loginname like '%"+loginname+"%'";
+    if (loginname != null && !"".equals(loginname)) {
+      sql += " and loginname like '%" + loginname + "%'";
     }
-    if(status!=null&&!"".equals(status)){
-      sql+=" and status = "+status;
+    if (status != null && !"".equals(status)) {
+      sql += " and status = " + status;
     }
+    sql += " limit " + (page - 1) * limit + "," + limit;
     return query(sql);
+  }
+
+  @Override
+  public boolean checkName(String loginname) {
+    var users = query("select * from user_inf where loginname = ?", loginname);
+    if (users.size() > 0) {
+      return true;
+    }
+    return false;
+  }
+
+  @Override
+  public int addUser(User user) {
+    return update("insert into user_inf values(null,?,?,?,CURRENT_TIMESTAMP,?)", user.getLoginname(), user.getPassword(), user.getStatus(), user.getUsername());
+  }
+
+  @Override
+  public int updUser(User user) {
+    return update("update user_inf set loginname=?,username=?,status=? where id=?", user.getLoginname(), user.getUsername(), user.getStatus(), user.getId());
+  }
+
+  //获取用户数量
+  @Override
+  public int countUser() {
+    var users = query("select * from user_inf");
+    return users.size();
+  }
+
+  @Override
+  public int delUser(int id) {
+    return update("delete from user_inf where id=?",id);
   }
 
 
