@@ -48,6 +48,12 @@ public class EmployeeDaoImpl extends JDBCUtils<Employee> implements EmployeeDao 
   }
 
   @Override
+  public int countEmployee() {
+    var users = query("select * from employee_inf");
+    return users.size();
+  }
+
+  @Override
   public Employee getBean(ResultSet rs) {
     Employee employee = new Employee();
     try {

@@ -10,4 +10,6 @@ public interface EmployeeDao {
   boolean selectCardId(String id);
 
   int addEmployee(Employee employee);
+
+  int countEmployee();
 }

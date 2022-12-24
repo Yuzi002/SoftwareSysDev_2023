@@ -50,7 +50,7 @@ public class EmployeeServlet extends HttpServlet {
         R r = new R();
         r.put("msg", "查询成功");
         r.put("data", list);
-        r.put("count", 0);
+        r.put("count", employeeDao.countEmployee());
         r.put("code", 0);
         out.print(new Gson().toJson(r));
       }
