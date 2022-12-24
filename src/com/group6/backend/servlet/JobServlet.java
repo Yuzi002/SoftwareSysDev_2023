@@ -84,7 +84,6 @@ public class JobServlet extends HttpServlet {
       }
       case "delJob.action" -> {
         int id = Integer.parseInt(request.getParameter("id"));
-        //TODO:级联删除
         if (jobDao.delJob(id) > 0) {
           out.print(1);//删除成功
         } else {
@@ -92,7 +91,6 @@ public class JobServlet extends HttpServlet {
         }
       }
       case "delJobs.action" -> {
-        //TODO:级联删除
         var ids = Arrays.stream(request.getParameter("ids").split(",")).mapToInt(Integer::parseInt).toArray();
         int flag = 1;
         for (var id : ids) {

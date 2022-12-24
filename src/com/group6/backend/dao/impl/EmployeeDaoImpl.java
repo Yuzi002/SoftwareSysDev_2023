@@ -54,6 +54,16 @@ public class EmployeeDaoImpl extends JDBCUtils<Employee> implements EmployeeDao 
   }
 
   @Override
+  public List<Employee> getEmployeeFromJobId(int job_id) {
+    return query("select e.*,d.`NAME` deptName,j.`NAME` jobName from employee_inf e,dept_inf d,job_inf j where d.ID=e.dept_id and e.job_id=j.ID and e.job_id=?", job_id);
+  }
+
+  @Override
+  public List<Employee> getEmployeeFromDeptId(int dept_id) {
+    return query("select e.*,d.`NAME` deptName,j.`NAME` jobName from employee_inf e,dept_inf d,job_inf j where d.ID=e.dept_id and e.job_id=j.ID and e.dept_id=?", dept_id);
+  }
+
+  @Override
   public Employee getBean(ResultSet rs) {
     Employee employee = new Employee();
     try {

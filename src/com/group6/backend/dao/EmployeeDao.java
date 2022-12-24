@@ -12,4 +12,8 @@ public interface EmployeeDao {
   int addEmployee(Employee employee);
 
   int countEmployee();
+
+  List<Employee> getEmployeeFromJobId(int job_id);
+
+  List<Employee> getEmployeeFromDeptId(int dept_id);
 }
