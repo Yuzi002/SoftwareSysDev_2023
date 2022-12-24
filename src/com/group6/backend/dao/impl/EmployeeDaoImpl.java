@@ -49,7 +49,7 @@ public class EmployeeDaoImpl extends JDBCUtils<Employee> implements EmployeeDao 
 
   @Override
   public int countEmployee() {
-    var users = query("select * from employee_inf");
+    var users = query("select e.*,d.`NAME` deptName,j.`NAME` jobName from employee_inf e,dept_inf d,job_inf j where d.ID=e.dept_id and e.job_id=j.ID");
     return users.size();
   }
 
