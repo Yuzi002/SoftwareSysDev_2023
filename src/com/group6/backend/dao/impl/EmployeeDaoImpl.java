@@ -69,6 +69,16 @@ public class EmployeeDaoImpl extends JDBCUtils<Employee> implements EmployeeDao 
   }
 
   @Override
+  public int updEmployee(Employee employee) {
+    return update("update employee_inf set NAME=?,CARD_ID=?,ADDRESS=?,TEL=?,POST_CODE=?,PHONE=?,QQ_NUM=?,EMAIL=?,SEX=?,PARTY=?,BIRTHDAY=?,RACE=?,EDUCATION=?,SPECIALITY=?,HOBBY=?,REMARK=?,CREATE_DATE=?,state=?,dept_id=?,job_id=? where ID=?",
+      employee.getName(),employee.getCardId(),employee.getAddress(),employee.getTel(),
+      employee.getPostCode(),employee.getPhone(),employee.getQqNum(),employee.getEmail(),
+      employee.getSex(),employee.getParty(),employee.getBirthday(),employee.getRace(),
+      employee.getEducation(),employee.getSpeciality(),employee.getHobby(),employee.getRemark(),
+      employee.getCreateDate(), employee.getState(), employee.getDept_id(), employee.getJob_id(),employee.getId());
+  }
+
+  @Override
   public Employee getBean(ResultSet rs) {
     Employee employee = new Employee();
     try {

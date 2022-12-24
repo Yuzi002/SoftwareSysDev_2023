@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Date;
 
-@WebServlet(urlPatterns = {"/employeeList.action", "/addEmployee.action", "/checkCardId.action", "/delEmployee.action", "/delEmployees.action"})
+@WebServlet(urlPatterns = {"/employeeList.action", "/addEmployee.action", "/checkCardId.action", "/delEmployee.action", "/delEmployees.action", "/updEmployee.action"})
 public class EmployeeServlet extends HttpServlet {
   private EmployeeDao employeeDao = new EmployeeDaoImpl();
 
@@ -99,6 +99,36 @@ public class EmployeeServlet extends HttpServlet {
 //        print, write：当返回的值是页面标签的时候才用
           out.print(1);
         } else {//添加失败返回0
+          out.print(0);
+        }
+      }
+      case "updEmployee.action" -> {
+        String name = request.getParameter("name");
+        String cardId = request.getParameter("cardId");
+        String sex = request.getParameter("sex");
+        String jobId = request.getParameter("jobId");
+        String education = request.getParameter("education");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        String tel = request.getParameter("tel");
+        String party = request.getParameter("party");
+        String qqNum = request.getParameter("qqNum");
+        String address = request.getParameter("address");
+        String postCode = request.getParameter("postCode");
+        String birthday = request.getParameter("birthday");
+        String race = request.getParameter("race");
+        String speciality = request.getParameter("speciality");
+        String hobby = request.getParameter("hobby");
+        String remark = request.getParameter("remark");
+        String deptId = request.getParameter("deptId");
+        int id = Integer.parseInt(request.getParameter("id"));
+        Employee employee = new Employee(id, name, cardId, address, phone, email, Integer.parseInt(sex), education, new Date(),
+          Integer.parseInt(deptId), Integer.parseInt(jobId), postCode, qqNum, party, FormatStringAsDate.formart(birthday),
+          race, 0, speciality, hobby, remark, tel);
+
+        if (employeeDao.updEmployee(employee) > 0) {
+          out.print(1);//修改成功
+        } else {
           out.print(0);
         }
       }
