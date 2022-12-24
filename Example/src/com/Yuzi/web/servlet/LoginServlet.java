@@ -1,6 +1,5 @@
 package com.Yuzi.web.servlet;
 
-import com.Yuzi.web.dao.UserDao;
 import com.Yuzi.web.dao.impl.UserDaoImpl;
 import com.Yuzi.web.pojo.R;
 import com.Yuzi.web.pojo.User;
@@ -93,7 +92,7 @@ public class LoginServlet extends HttpServlet {
       User user = userDao.login(username, password);
       if (user != null) {
         //将当前用户信息保存在session中
-        session.setAttribute("user",user);
+        session.setAttribute("user", user);
         R r = new R();
         //将user对象保存在user中
         r.put("user", user);

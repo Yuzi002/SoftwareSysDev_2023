@@ -16,9 +16,10 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/deptList.action","/getAllDept.action","/updDept.action","/addDept.action","/checkDeptName.action","/delDept.action","/delDepts.action"})
+@WebServlet(urlPatterns = {"/deptList.action", "/getAllDept.action", "/updDept.action", "/addDept.action", "/checkDeptName.action", "/delDept.action", "/delDepts.action"})
 public class DeptServlet extends HttpServlet {
   private final DeptDao deptDao = new DeptDaoImpl();
+
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     response.setCharacterEncoding("UTF-8");
@@ -33,7 +34,7 @@ public class DeptServlet extends HttpServlet {
         //每页多少条
         int limit = Integer.parseInt(request.getParameter("limit"));
         //查询方法
-        List<Dept> depts = deptDao.deptlist(name,page,limit);
+        List<Dept> depts = deptDao.deptlist(name, page, limit);
         R r = new R();
         r.put("msg", "查询成功");
         r.put("data", depts);
@@ -41,7 +42,7 @@ public class DeptServlet extends HttpServlet {
         r.put("code", 0);
         out.print(new Gson().toJson(r));
       }
-      case "getAllDept.action"->{
+      case "getAllDept.action" -> {
         out.print(new Gson().toJson(deptDao.getAllDept()));
       }
       case "checkDeptName.action" -> {

@@ -17,9 +17,10 @@ public class Dept {
   }
 
   public Dept(String name, String remark) {
-    this.name= name;
-    this.remark =remark;
+    this.name = name;
+    this.remark = remark;
   }
+
   public int getId() {
     return id;
   }

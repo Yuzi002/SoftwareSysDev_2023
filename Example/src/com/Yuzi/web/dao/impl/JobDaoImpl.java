@@ -69,6 +69,6 @@ public class JobDaoImpl extends JDBCUtils<Job> implements JobDao {
 
   @Override
   public int delJob(int id) {
-    return update("delete from job_inf where ID=?",id);
+    return update("delete from job_inf where ID=?", id);
   }
 }

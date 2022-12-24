@@ -54,7 +54,7 @@ public class EmployeeServlet extends HttpServlet {
         r.put("code", 0);
         out.print(new Gson().toJson(r));
       }
-      case "checkCardId.action"->{
+      case "checkCardId.action" -> {
         var id = request.getParameter("cardId");
         var res = employeeDao.selectCardId(id);
         if (res) {

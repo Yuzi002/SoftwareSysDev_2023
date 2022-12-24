@@ -65,7 +65,7 @@ public class UserDaoImpl extends JDBCUtils<User> implements UserDao {
 
   @Override
   public int delUser(int id) {
-    return update("delete from user_inf where id=?",id);
+    return update("delete from user_inf where id=?", id);
   }
 
 

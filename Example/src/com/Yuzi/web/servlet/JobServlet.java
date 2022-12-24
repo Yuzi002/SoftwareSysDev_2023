@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/jobList.action","/getAllJob.action", "/checkJobName.action", "/addJob.action", "/updJob.action", "/delJob.action", "/delJobs.action"})
+@WebServlet(urlPatterns = {"/jobList.action", "/getAllJob.action", "/checkJobName.action", "/addJob.action", "/updJob.action", "/delJob.action", "/delJobs.action"})
 public class JobServlet extends HttpServlet {
   private final JobDao jobDao = new JobDaoImpl();
 
@@ -42,7 +42,7 @@ public class JobServlet extends HttpServlet {
         r.put("code", 0);
         out.print(new Gson().toJson(r));
       }
-      case "getAllJob.action"->{
+      case "getAllJob.action" -> {
         out.print(new Gson().toJson(jobDao.getAllJob()));
       }
       case "checkJobName.action" -> {

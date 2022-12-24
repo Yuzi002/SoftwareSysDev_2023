@@ -2,8 +2,8 @@ package com.Yuzi.web.servlet;
 
 import com.Yuzi.web.dao.UserDao;
 import com.Yuzi.web.dao.impl.UserDaoImpl;
-import com.Yuzi.web.pojo.User;
 import com.Yuzi.web.pojo.R;
+import com.Yuzi.web.pojo.User;
 import com.google.gson.Gson;
 import org.apache.commons.lang3.ArrayUtils;
 
