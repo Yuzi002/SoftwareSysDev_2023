@@ -16,4 +16,6 @@ public interface EmployeeDao {
   List<Employee> getEmployeeFromJobId(int job_id);
 
   List<Employee> getEmployeeFromDeptId(int dept_id);
+
+  int delEmployee(int id);
 }
