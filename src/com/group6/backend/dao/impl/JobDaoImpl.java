@@ -1,6 +1,7 @@
 package com.group6.backend.dao.impl;
 
 import com.group6.backend.dao.JobDao;
+import com.group6.backend.pojo.Employee;
 import com.group6.backend.pojo.Job;
 import com.group6.backend.util.JDBCUtils;
 
@@ -69,6 +70,17 @@ public class JobDaoImpl extends JDBCUtils<Job> implements JobDao {
 
   @Override
   public int delJob(int id) {
-    return update("delete from job_inf where ID=?", id);
+    List<Employee> employeeList = new EmployeeDaoImpl().getEmployeeFromJobId(id);
+    if (update("delete from job_inf where ID=?", id) > 0) {
+      //级联改变Employee中的Job为默认id，即0
+      if (employeeList.size() > 0) {
+        for (var employee : employeeList) {
+          update("update employee_inf set job_id=0 where id=?", employee.getId());
+        }
+      }
+      return 1;
+    } else {
+      return 0;
+    }
   }
 }
