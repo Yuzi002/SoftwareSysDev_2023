@@ -53,6 +53,30 @@ public class Employee {
     this.tel = tel;
   }
 
+  public Employee(int id, String name, String cardId, String address, String phone, String email, int sex, String education, Date createDate, int deptId, int job_id, String postCode, String qqNum, String party, Date birthday, String race, int state, String speciality, String hobby, String remark, String tel) {
+    this.id=id;
+    this.name = name;
+    this.cardId = cardId;
+    this.address = address;
+    this.phone = phone;
+    this.email = email;
+    this.sex = sex;
+    this.education = education;
+    this.createDate = createDate;
+    this.dept_id = deptId;
+    this.job_id = job_id;
+    this.postCode = postCode;
+    this.qqNum = qqNum;
+    this.party = party;
+    this.birthday = birthday;
+    this.race = race;
+    this.state = state;
+    this.speciality = speciality;
+    this.hobby = hobby;
+    this.remark = remark;
+    this.tel = tel;
+  }
+
   public String getQqNum() {
     return qqNum;
   }

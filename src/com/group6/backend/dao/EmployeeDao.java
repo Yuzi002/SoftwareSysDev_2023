@@ -18,4 +18,6 @@ public interface EmployeeDao {
   List<Employee> getEmployeeFromDeptId(int dept_id);
 
   int delEmployee(int id);
+
+  int updEmployee(Employee employee);
 }
