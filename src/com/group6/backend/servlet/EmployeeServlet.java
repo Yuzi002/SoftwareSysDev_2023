@@ -1,11 +1,11 @@
 package com.group6.backend.servlet;
 
+import com.google.gson.Gson;
 import com.group6.backend.dao.EmployeeDao;
 import com.group6.backend.dao.impl.EmployeeDaoImpl;
 import com.group6.backend.pojo.Employee;
 import com.group6.backend.pojo.R;
 import com.group6.backend.util.FormatStringAsDate;
-import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,9 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Date;
 
-@WebServlet(urlPatterns = {"/employeeList.action", "/addEmployee.action", "/checkCardId.action"})
+@WebServlet(urlPatterns = {"/employeeList.action", "/addEmployee.action", "/checkCardId.action", "/delEmployee.action", "/delEmployees.action"})
 public class EmployeeServlet extends HttpServlet {
   private EmployeeDao employeeDao = new EmployeeDaoImpl();
 
@@ -100,6 +101,24 @@ public class EmployeeServlet extends HttpServlet {
         } else {//添加失败返回0
           out.print(0);
         }
+      }
+      case "delEmployee.action" -> {
+        int id = Integer.parseInt(request.getParameter("id"));
+        if (employeeDao.delEmployee(id) > 0) {
+          out.print(1);//删除成功
+        } else {
+          out.print(0);
+        }
+      }
+      case "delEmployees.action" -> {
+        var ids = Arrays.stream(request.getParameter("ids").split(",")).mapToInt(Integer::parseInt).toArray();
+        int flag = 1;
+        for (var id : ids) {
+          if (employeeDao.delEmployee(id) <= 0) {
+            flag = 0;//删除失败
+          }
+        }
+        out.print(flag);
       }
     }
   }
