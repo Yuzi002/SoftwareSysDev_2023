@@ -38,6 +38,11 @@ public class JobDaoImpl extends JDBCUtils<Job> implements JobDao {
   }
 
   @Override
+  public List<Job> getAllJob() {
+    return query("select * from job_inf");
+  }
+
+  @Override
   public int countJob() {
     var users = query("select * from job_inf");
     return users.size();

@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/deptList.action","/updDept.action","/addDept.action","/checkDeptName.action","/delDept.action","/delDepts.action"})
+@WebServlet(urlPatterns = {"/deptList.action","/getAllDept.action","/updDept.action","/addDept.action","/checkDeptName.action","/delDept.action","/delDepts.action"})
 public class DeptServlet extends HttpServlet {
   private final DeptDao deptDao = new DeptDaoImpl();
   @Override
@@ -40,6 +40,9 @@ public class DeptServlet extends HttpServlet {
         r.put("count", deptDao.countDept());
         r.put("code", 0);
         out.print(new Gson().toJson(r));
+      }
+      case "getAllDept.action"->{
+        out.print(new Gson().toJson(deptDao.getAllDept()));
       }
       case "checkDeptName.action" -> {
         String name = request.getParameter("name");
