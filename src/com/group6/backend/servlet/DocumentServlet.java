@@ -17,11 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(urlPatterns = {"/documentList.action", "/uploadNew.action", "/addDocument.action","/uploadEdit.action", "/updDocument.action"})
+@WebServlet(urlPatterns = {"/documentList.action", "/uploadNew.action", "/addDocument.action", "/uploadEdit.action", "/updDocument.action", "/delDocument.action", "/delDocuments.action"})
 public class DocumentServlet extends HttpServlet {
   DocumentDao documentDao = new DocumentDaoImpl();
 
@@ -54,10 +55,10 @@ public class DocumentServlet extends HttpServlet {
     String action = uri.substring((uri.lastIndexOf("/") + 1));
     switch (action) {
       case "uploadNew.action" -> {
-        upload(true,request,response,out);
+        upload(true, request, response, out);
       }
       case "uploadEdit.action" -> {
-        upload(false,request,response,out);
+        upload(false, request, response, out);
       }
       case "addDocument.action" -> {
         String title = request.getParameter("title");
@@ -87,7 +88,7 @@ public class DocumentServlet extends HttpServlet {
         }
         var document = documents.get(0);
         if (!document.getFileName().equals(fileName)) {//文件名改了，删掉旧文件
-          File oldFile = new File( savePath,document.getFileName());
+          File oldFile = new File(savePath, document.getFileName());
           oldFile.delete();
         }
         if (documentDao.updDocument(id, title, remark, fileName) > 0) {
@@ -96,9 +97,37 @@ public class DocumentServlet extends HttpServlet {
           out.print(0);
         }
       }
+      case "delDocument.action" -> {
+        int id = Integer.parseInt(request.getParameter("id"));
+        var documents = documentDao.getDocumentById(id);
+        String savePath = request.getSession().getServletContext().getRealPath("/files");
+        if (documentDao.delDocument(id) > 0) {
+          File oldFile = new File(savePath, documents.get(0).getFileName());//删除文件，既然已经删库内的东西都成功了就无需判断list是否空
+          oldFile.delete();
+          out.print(1);//删除成功
+        } else {
+          out.print(0);
+        }
+      }
+      case "delDocuments.action" -> {
+        var ids = Arrays.stream(request.getParameter("ids").split(",")).mapToInt(Integer::parseInt).toArray();
+        int flag = 1;
+        for (var id : ids) {
+          var documents = documentDao.getDocumentById(id);
+          if (documentDao.delDocument(id) <= 0) {
+            flag = 0;//删除失败
+          } else {//删除成功，删除对应文件
+            String savePath = request.getSession().getServletContext().getRealPath("/files");
+            File oldFile = new File(savePath, documents.get(0).getFileName());//删除文件，既然已经删库内的东西都成功了就无需判断list是否空
+            oldFile.delete();
+          }
+        }
+        out.print(flag);
+      }
     }
   }
-  protected void upload(boolean newFlag,HttpServletRequest request, HttpServletResponse response,PrintWriter out){
+
+  protected void upload(boolean newFlag, HttpServletRequest request, HttpServletResponse response, PrintWriter out) {
     if (ServletFileUpload.isMultipartContent(request)) {
       //得到上传文件的保存目录，将上传的文件存放于files目录下
       String savePath = request.getSession().getServletContext().getRealPath("/files");
@@ -136,7 +165,7 @@ public class DocumentServlet extends HttpServlet {
             //处理获取到的上传文件的文件名的路径部分，只保留文件名部分
             filename = filename.substring(filename.lastIndexOf("\\") + 1);
             File file1 = new File(savePath, filename);
-            if (file1.exists()&&newFlag) {//文件已存在，若是新上传，则报错拒绝
+            if (file1.exists() && newFlag) {//文件已存在，若是新上传，则报错拒绝
               //out.print(-2);
             } else {
               item.write(file1);

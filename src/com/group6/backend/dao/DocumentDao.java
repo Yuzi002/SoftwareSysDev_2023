@@ -16,4 +16,6 @@ public interface DocumentDao {
   List<Document> getDocumentById(int id);
 
   int updDocument(int id, String title, String remark, String fileName);
+
+  int delDocument(int id);
 }
