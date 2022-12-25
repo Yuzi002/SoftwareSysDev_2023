@@ -44,7 +44,12 @@ public class DocumentDaoImpl extends JDBCUtils<Document> implements DocumentDao 
   @Override
   public int updDocument(int id, String title, String remark, String fileName) {
     return update("update document_inf set title=?,filename=?,REMARK=?,CREATE_DATE=? where ID=?",
-      title,fileName,remark,new Date(),id);
+      title, fileName, remark, new Date(), id);
+  }
+
+  @Override
+  public int delDocument(int id) {
+    return update("delete from document_inf where id=?", id);
   }
 
   @Override
