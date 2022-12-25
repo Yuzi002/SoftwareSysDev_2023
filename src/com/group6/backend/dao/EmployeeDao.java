@@ -5,7 +5,7 @@ import com.group6.backend.pojo.Employee;
 import java.util.List;
 
 public interface EmployeeDao {
-  List<Employee> getEmployeeList(Employee employee);
+  List<Employee> getEmployeeList(Employee employee, int page, int limit);
 
   boolean selectCardId(String id);
 

@@ -11,7 +11,7 @@ import java.util.List;
 public class EmployeeDaoImpl extends JDBCUtils<Employee> implements EmployeeDao {
 
   @Override
-  public List<Employee> getEmployeeList(Employee employee) {
+  public List<Employee> getEmployeeList(Employee employee, int page, int limit) {
     var sql = "select e.*,d.`NAME` deptName,j.`NAME` jobName from employee_inf e,dept_inf d,job_inf j where d.ID=e.dept_id and e.job_id=j.ID";
     if (employee.getName() != null && !employee.getName().isEmpty()) {
       sql += " AND e.name like '%" + employee.getName() + "%'";
@@ -31,6 +31,7 @@ public class EmployeeDaoImpl extends JDBCUtils<Employee> implements EmployeeDao 
     if (employee.getPhone() != null && !employee.getPhone().isEmpty()) {
       sql += " AND phone=" + employee.getPhone();
     }
+    sql += " limit " + (page - 1) * limit + "," + limit;
     return query(sql);
   }
 
@@ -71,11 +72,11 @@ public class EmployeeDaoImpl extends JDBCUtils<Employee> implements EmployeeDao 
   @Override
   public int updEmployee(Employee employee) {
     return update("update employee_inf set NAME=?,CARD_ID=?,ADDRESS=?,TEL=?,POST_CODE=?,PHONE=?,QQ_NUM=?,EMAIL=?,SEX=?,PARTY=?,BIRTHDAY=?,RACE=?,EDUCATION=?,SPECIALITY=?,HOBBY=?,REMARK=?,CREATE_DATE=?,state=?,dept_id=?,job_id=? where ID=?",
-      employee.getName(),employee.getCardId(),employee.getAddress(),employee.getTel(),
-      employee.getPostCode(),employee.getPhone(),employee.getQqNum(),employee.getEmail(),
-      employee.getSex(),employee.getParty(),employee.getBirthday(),employee.getRace(),
-      employee.getEducation(),employee.getSpeciality(),employee.getHobby(),employee.getRemark(),
-      employee.getCreateDate(), employee.getState(), employee.getDept_id(), employee.getJob_id(),employee.getId());
+      employee.getName(), employee.getCardId(), employee.getAddress(), employee.getTel(),
+      employee.getPostCode(), employee.getPhone(), employee.getQqNum(), employee.getEmail(),
+      employee.getSex(), employee.getParty(), employee.getBirthday(), employee.getRace(),
+      employee.getEducation(), employee.getSpeciality(), employee.getHobby(), employee.getRemark(),
+      employee.getCreateDate(), employee.getState(), employee.getDept_id(), employee.getJob_id(), employee.getId());
   }
 
   @Override
