@@ -10,4 +10,6 @@ public interface DocumentDao {
   List<Document> getAllDocument();
 
   int countDocument();
+
+  int delDocument(int id);
 }

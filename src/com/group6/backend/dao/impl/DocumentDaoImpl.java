@@ -31,6 +31,12 @@ public class DocumentDaoImpl extends JDBCUtils<Document> implements DocumentDao 
   }
 
   @Override
+  public int delDocument(int id) {
+    return update("delete from document_inf where id=?", id);
+  }
+
+
+  @Override
   public Document getBean(ResultSet rs) {
     Document document = new Document();
     try {

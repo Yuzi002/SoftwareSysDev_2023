@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 @WebServlet(urlPatterns = {"/documentList.action"})
 public class DocumentServlet extends HttpServlet {
@@ -40,6 +41,29 @@ public class DocumentServlet extends HttpServlet {
 
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    response.setCharacterEncoding("UTF-8");
+    PrintWriter out = response.getWriter();
+    String uri = request.getRequestURI();
+    String action = uri.substring((uri.lastIndexOf("/") + 1));
+    switch (action) {
+      case "delDocument.action" -> {
+        int id = Integer.parseInt(request.getParameter("id"));
+        if (documentDao.delDocument(id) > 0) {
+          out.print(1);//删除成功
+        } else {
+          out.print(0);
+        }
+      }
+      case "delDocuments.action" -> {
+        var ids = Arrays.stream(request.getParameter("ids").split(",")).mapToInt(Integer::parseInt).toArray();
+        int flag = 1;
+        for (var id : ids) {
+          if (documentDao.delDocument(id) <= 0) {
+            flag = 0;//删除失败
+          }
+        }
+        out.print(flag);
+      }
+    }
   }
 }
