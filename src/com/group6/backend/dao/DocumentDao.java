@@ -12,4 +12,8 @@ public interface DocumentDao {
   int countDocument();
 
   int addDocument(String title, String content, String filename, int user_id);
+
+  List<Document> getDocumentById(int id);
+
+  int updDocument(int id, String title, String remark, String fileName);
 }

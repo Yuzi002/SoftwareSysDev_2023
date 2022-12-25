@@ -37,6 +37,17 @@ public class DocumentDaoImpl extends JDBCUtils<Document> implements DocumentDao 
   }
 
   @Override
+  public List<Document> getDocumentById(int id) {
+    return query("select d.*,u.`USERNAME` user_name from document_inf d,user_inf u where d.user_ID=u.ID and d.id=?", id);
+  }
+
+  @Override
+  public int updDocument(int id, String title, String remark, String fileName) {
+    return update("update document_inf set title=?,filename=?,REMARK=?,CREATE_DATE=? where ID=?",
+      title,fileName,remark,new Date(),id);
+  }
+
+  @Override
   public Document getBean(ResultSet rs) {
     Document document = new Document();
     try {
