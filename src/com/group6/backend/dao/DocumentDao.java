@@ -10,4 +10,6 @@ public interface DocumentDao {
   List<Document> getAllDocument();
 
   int countDocument();
+
+  int addDocument(String title, String content, String filename, int user_id);
 }

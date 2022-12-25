@@ -113,6 +113,8 @@
                                     //修改成功后刷新父界面
                                     window.parent.location.reload();
                             });
+                        }else if(data==-1){
+                            layer.alert("请先上传文件！", { icon: 2 })
                         }
                         else {
                         	 layer.alert("增加信息失败！", { icon: 2 })

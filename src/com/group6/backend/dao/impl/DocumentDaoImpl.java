@@ -6,6 +6,7 @@ import com.group6.backend.util.JDBCUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 public class DocumentDaoImpl extends JDBCUtils<Document> implements DocumentDao {
@@ -28,6 +29,11 @@ public class DocumentDaoImpl extends JDBCUtils<Document> implements DocumentDao 
   public int countDocument() {
     var documents = query("select d.*,u.`USERNAME` user_name from document_inf d,user_inf u where d.user_ID=u.ID");
     return documents.size();
+  }
+
+  @Override
+  public int addDocument(String title, String content, String filename, int user_id) {
+    return update("insert into document_inf values (null,?,?,?,?,?,?)", title, filename, "ppt", content, new Date(), user_id);
   }
 
   @Override
