@@ -29,8 +29,8 @@ public class EmployeeServlet extends HttpServlet {
     String action = uri.substring((uri.lastIndexOf("/") + 1));
     switch (action) {
       case "employeeList.action" -> {
-        String page = request.getParameter("page");
-        String limit = request.getParameter("limit");
+        int page = Integer.parseInt(request.getParameter("page"));
+        int limit = Integer.parseInt(request.getParameter("limit"));
 
         String name = request.getParameter("name");
         int sex = Integer.parseInt(request.getParameter("sex") == null || request.getParameter("sex").isEmpty() ? "-1" : request.getParameter("sex"));
@@ -47,7 +47,7 @@ public class EmployeeServlet extends HttpServlet {
         employee.setPhone(phone);
 
 
-        var list = employeeDao.getEmployeeList(employee);
+        var list = employeeDao.getEmployeeList(employee, page, limit);
         R r = new R();
         r.put("msg", "查询成功");
         r.put("data", list);

@@ -54,7 +54,7 @@ public class Employee {
   }
 
   public Employee(int id, String name, String cardId, String address, String phone, String email, int sex, String education, Date createDate, int deptId, int job_id, String postCode, String qqNum, String party, Date birthday, String race, int state, String speciality, String hobby, String remark, String tel) {
-    this.id=id;
+    this.id = id;
     this.name = name;
     this.cardId = cardId;
     this.address = address;
